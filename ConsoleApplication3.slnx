@@ -1,7 +1,57 @@
-<Solution>
-  <Configurations>
-    <Platform Name="x64" />
-    <Platform Name="x86" />
-  </Configurations>
-  <Project Path="ConsoleApplication3/ConsoleApplication3.vcxproj" Id="ac17bbdc-6275-4df7-a156-8b957caa0b89" />
-</Solution>
+#include <iostream>
+#include <vector>
+#include <climits>
+// Директива в, которая позволяет использовать все идентификаторы из пространства имён 
+using namespace std;
+
+int main() {
+	// Корректный ввод текста на кириллице
+	setlocale(LC_ALL, "RU");
+
+	int N;
+	cout << "Введите размер массива N:";
+	cin >> N;
+
+	if (N <= 0) {
+		cout << "Размер массива должен быть положительным!\n" ;
+		return 1;
+	}
+
+	vector<int> A(N);
+	// Ввод размера массива
+	cout << "Введите элементы массива:\n" ;
+	for (int i = 0; i < N; ++i) {
+		cin >> A[i];
+	}
+
+	// Находим индексы максимального и минимального элементов
+	int max_val = INT_MIN, min_val = INT_MAX;
+	int max_idx = -1, min_idx = -1;
+
+	for (int i = 0; i < N; ++i) {
+		if (A[i] > max_val) {
+			max_val = A[i];
+			max_idx = i;
+		}
+		if (A[i] < min_val) {
+			min_val = A[i];
+			min_idx = i;
+		}
+	}
+
+	// Определяем границы диапазона (между max и min)
+	int start = min(max_idx, min_idx) + 1;
+	int end = max(max_idx, min_idx);
+
+	// Считаем сумму отрицательных элементов в этом диапазоне
+	int sum = 0;
+	for (int i = start; i < end; ++i) {
+		if (A[i] < 0) {
+			sum += A[i];
+		}
+	}
+
+	cout << "Сумма отрицательных элементов между max и min:" << sum << endl;
+
+	return 0;
+}
